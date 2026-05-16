@@ -1,0 +1,723 @@
+/* Universal box-sizing for consistent layout */
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: 'Segoe UI', Arial, sans-serif;
+  background: #181818;
+  color: #f0e6d2;
+}
+
+#app {
+  max-width: 960px;
+  margin: 20px auto;
+  padding: 32px;
+  background: #1e1e1e;
+  border: 2px solid #5a5a5a;
+  border-radius: 8px;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.6);
+}
+
+header {
+  text-align: center;
+  margin-bottom: 24px;
+  border-bottom: 1px solid #333;
+  padding-bottom: 15px;
+}
+
+header h1 {
+  color: #f0e6d2;
+  font-size: 1.8rem;
+  margin-bottom: 5px;
+}
+
+#server-info {
+  margin-top: 8px;
+  font-size: 0.9rem;
+  color: #a0a0a0;
+  line-height: 1.4;
+}
+
+#charts {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  justify-content: center;
+  margin-bottom: 24px;
+}
+
+.top-charts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  justify-content: center;
+}
+
+.chart-container {
+  background: #0d0d0d;
+  border: 1px solid #3a3a3a;
+  border-radius: 4px;
+  padding: 12px;
+  flex: 1 1 280px;
+  min-width: 280px;
+  box-shadow: inset 0 0 5px rgba(0,0,0,0.5);
+  position: relative;
+  overflow: visible;
+}
+
+.top-charts .chart-container {
+  flex: 1;
+}
+
+/* Make chart containers taller when showing pie charts */
+.chart-container.pie-mode {
+  min-height: 350px;
+}
+
+#level-chart {
+  flex: 1 1 100%;
+  max-width: 100%;
+}
+
+.chart-container h2 {
+  margin-top: 0;
+  font-size: 1.1rem;
+  text-align: center;
+  color: #fff;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  border-bottom: 1px dashed #333;
+  padding-bottom: 8px;
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.chart-toggle {
+  background: none;
+  border: none;
+  color: #b58c00;
+  font-size: 0.8rem;
+  cursor: pointer;
+  padding: 2px 4px;
+  border-radius: 2px;
+  transition: all 0.2s;
+  line-height: 1;
+}
+
+.chart-toggle:hover {
+  background: rgba(181, 140, 0, 0.2);
+  transform: scale(1.1);
+}
+
+/* Pie chart styles */
+.pie-chart {
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  height: 220px;
+  position: relative;
+  padding-top: 65px;
+}
+
+.pie-slice {
+  position: absolute;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 0.7rem;
+  font-weight: bold;
+  text-shadow: 1px 1px 2px rgba(0,0,0,0.7);
+}
+
+.pie-legend {
+  margin-left: 20px;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  gap: 4px;
+  max-height: 220px;
+  width: 200px;
+  align-content: flex-start;
+}
+
+.pie-legend-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.8rem;
+}
+
+.pie-legend-color {
+  width: 12px;
+  height: 12px;
+  border-radius: 2px;
+}
+
+.chart-bars {
+  display: flex;
+  align-items: flex-end;
+  height: 220px; /* Increased height for better bar presentation */
+  gap: 8px;
+  margin-top: 0;
+  padding: 0;
+  overflow-x: hidden;
+  overflow-y: visible; /* Allow icons to show */
+  padding-bottom: 60px; /* Padding for 20px icons */
+  position: relative;
+}
+
+.y-axis-labels {
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 30px;
+  width: 50px;
+  pointer-events: none;
+  z-index: 10;
+  background: transparent;
+}
+
+.y-axis-labels-right {
+  position: absolute;
+  right: 0;
+  top: 0;
+  bottom: 30px;
+  width: 50px;
+  pointer-events: none;
+  z-index: 10;
+  background: transparent;
+}
+
+.y-axis-label {
+  font-size: 0.7rem;
+  color: #a0a0a0;
+  text-align: right;
+  line-height: 1;
+  transform: translateY(50%);
+  font-weight: 400;
+  white-space: nowrap;
+  background: rgba(13, 13, 13, 0.7);
+  padding: 1px 3px;
+  border-radius: 1px;
+}
+
+/* Top charts styling handled by general .chart-bars rules */
+
+#level-chart .chart-bars {
+  gap: 1px; /* Small gap to separate bars slightly */
+  padding-bottom: 40px;
+  overflow-y: visible;
+  overflow-x: visible; /* Allow red caps to show */
+}
+
+.chart-bars::before {
+  content: '';
+  position: absolute;
+  bottom: 15px;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: #3a3a3a;
+}
+
+.bar {
+  background: #1a4d8c;
+  border-radius: 2px 2px 0 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  cursor: pointer;
+  transition: background 0.2s;
+  position: relative;
+  flex-grow: 1;
+  flex-shrink: 1;
+  flex-basis: auto;
+}
+
+.bar-container {
+  border-radius: 2px 2px 0 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  cursor: pointer;
+  transition: all 0.2s;
+  position: relative;
+  flex-grow: 1;
+  flex-shrink: 1;
+  flex-basis: auto;
+  overflow: hidden;
+  min-width: 1px;
+  user-select: none; /* Prevent text selection during drag */
+  -webkit-tap-highlight-color: transparent; /* Remove tap highlight on mobile */
+  touch-action: manipulation; /* Optimize touch interactions */
+}
+
+.bar-container.selected {
+  box-shadow: 0 0 8px rgba(181, 140, 0, 0.8);
+}
+
+.bar-container:active {
+  transform: scale(0.98);
+  transition: transform 0.1s;
+}
+
+/* Mobile touch feedback */
+@media (hover: none) and (pointer: coarse) {
+  .bar-container {
+    min-height: 48px; /* Larger touch targets on mobile */
+  }
+  
+  .bar-container:active {
+    background-color: rgba(181, 140, 0, 0.2);
+    transform: scale(0.95);
+  }
+}
+
+.bar-segment {
+  position: absolute;
+  left: 0;
+  right: 0;
+  border-radius: 2px 2px 0 0;
+  transition: opacity 0.2s;
+}
+
+/* Top charts bar styling handled by general .bar rules */
+
+#level-chart .bar {
+  width: auto; /* Allow width to be determined by flexbox */
+  flex-grow: 1; /* Allow bars to grow to fill space */
+  flex-shrink: 0; /* Prevent bars from shrinking below their minimum content size */
+  flex-basis: 0; /* Initial size before growth */
+  font-size: 0; /* Hide any direct text content */
+  line-height: 0; /* Collapse line height */
+  color: transparent; /* Explicitly make any text transparent */
+  text-indent: -9999px; /* Force text off-screen */
+  white-space: nowrap; /* Prevent text wrapping */
+  overflow: visible; /* Allow level labels to show */
+}
+
+#level-chart .bar-value {
+  font-size: initial; /* Reset font size for tooltip content */
+  line-height: initial; /* Reset line height for tooltip content */
+}
+
+.bar.selected {
+  background: #b58c00;
+}
+
+.bar-value {
+  font-size: 0.8rem;
+  color: #fff;
+  margin-bottom: 4px;
+  text-shadow: 1px 1px 2px rgba(0,0,0,0.7);
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+
+.bar:hover .bar-value {
+  opacity: 1;
+}
+
+.bar img {
+  width: 35px; /* Smaller fixed width for all icons */
+  height: 35px; /* Smaller fixed height for all icons */
+  position: absolute;
+  bottom: -22px; /* Position icons below bars with small gap */
+  left: 50%;
+  transform: translateX(-50%); /* Center icons horizontally */
+  z-index: 10; /* Ensure icons appear above other elements */
+}
+
+.bar-label {
+  font-size: 0.75rem;
+  color: #a0a0a0;
+  text-align: center;
+  white-space: nowrap;
+  position: absolute;
+  bottom: -20px; /* Position below the icon */
+  width: 100%;
+  display: none; /* Hide the text labels */
+}
+
+footer {
+  margin-top: 32px;
+  text-align: center;
+  padding-top: 15px;
+  border-top: 1px solid #333;
+}
+
+#tabs {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin: 20px 0; /* Add margin to separate from surrounding content */
+}
+
+.ambershire-link {
+  text-align: center;
+  margin: 10px 0;
+  padding: 8px;
+}
+
+.ambershire-watch-link {
+  display: inline-block;
+  background: #1a4d8c;
+  color: #fff;
+  text-decoration: none;
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 8px rgba(26, 77, 140, 0.3);
+  border: 1px solid #b58c00;
+}
+
+.ambershire-watch-link:hover {
+  background: #2a5d9c;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(26, 77, 140, 0.5);
+  color: #fff;
+}
+
+.tab {
+  background: #282828;
+  color: #f0e6d2;
+  border: 1px solid #5a5a5a;
+  border-radius: 4px;
+  padding: 6px 18px;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: background 0.2s, border 0.2s, box-shadow 0.2s;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.4);
+}
+
+.tab:hover {
+  background: #3a3a3a;
+}
+
+.tab.active {
+  background: #1a4d8c;
+  border-color: #b58c00;
+  color: #fff;
+  box-shadow: inset 0 0 8px rgba(181, 140, 0, 0.5);
+}
+
+#faction-filters {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin: 20px 0;
+}
+
+.faction-filter {
+    padding: 8px 16px;
+    border: 2px solid #4a4a4a;
+    background-color: #2a2a2a;
+    color: #fff;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.faction-filter:hover {
+    background-color: #3a3a3a;
+    border-color: #5a5a5a;
+}
+
+.faction-filter.active {
+    background-color: #4a4a4a;
+    border-color: #6a6a6a;
+}
+
+/* Utility button (toggle 60s) styled like faction filters but not part of faction logic */
+.utility-button {
+    padding: 8px 16px;
+    border: 2px solid #4a4a4a;
+    background-color: #2a2a2a;
+    color: #fff;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.utility-button:hover {
+    background-color: #3a3a3a;
+    border-color: #5a5a5a;
+}
+
+.utility-button.active {
+    background-color: #4a4a4a;
+    border-color: #6a6a6a;
+}
+
+/* Level Color Coding Buttons */
+#level-color-coding {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin: 20px 0;
+}
+
+/* Level Selection Controls */
+#level-selection-controls {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+    margin: 15px 0;
+}
+
+.selection-info {
+    color: #b58c00;
+    font-size: 0.9rem;
+    font-weight: 600;
+    min-width: 120px;
+    text-align: center;
+}
+
+.level-color-coding {
+    padding: 8px 16px;
+    border: 2px solid #4a4a4a;
+    background-color: #2a2a2a;
+    color: #fff;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.level-color-coding:hover {
+    background-color: #3a3a3a;
+    border-color: #5a5a5a;
+}
+
+.level-color-coding.active {
+    background-color: #4a4a4a;
+    border-color: #6a6a6a;
+}
+
+/* Colored bar beneath icons */
+.icon-color-bar {
+    position: absolute;
+    bottom: -8px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 20px;
+    height: 4.5px;
+    border-radius: 1px;
+    z-index: 5;
+}
+
+
+.level-notation {
+    position: absolute;
+    bottom: -25px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 12px;
+    color: #b58c00;
+    font-weight: bold;
+    text-indent: 0; /* Override inherited indent */
+    line-height: 1; /* Override inherited line-height */
+    pointer-events: none;
+}
+
+#level-chart .chart-bars {
+    position: relative;
+    padding-bottom: 40px;
+    overflow-y: visible;
+}
+
+@media (max-width: 768px) {
+  #app {
+    padding: 15px;
+    margin: 10px auto;
+  }
+
+  header h1 {
+    font-size: 1.5rem;
+  }
+
+  #charts {
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .top-charts .chart-container {
+    flex: 1 1 auto;
+    min-width: unset;
+  }
+
+  .chart-bars {
+    height: auto; /* Adjusted height for smaller screens */
+    padding: 0;
+    gap: 4px;
+    overflow-y: visible; /* Allow icons to show on mobile */
+    padding-bottom: 23px; /* Padding for 18px mobile icons */
+  }
+
+  #level-chart .chart-bars {
+    gap: 0px; /* No gap for level chart on mobile */
+    padding-bottom: 30px; /* Add padding for level labels */
+    height: 132px; /* Increase height for mobile level chart (10% increase) */
+  }
+
+  .bar {
+    flex-basis: auto;
+  }
+
+  #level-chart .bar,
+  #level-chart .bar-container {
+    width: auto; /* Allow width to be determined by flexbox */
+    flex-grow: 1;
+    flex-shrink: 0;
+    flex-basis: 0;
+    font-size: 0;
+    line-height: 0;
+    color: transparent;
+    text-indent: -9999px;
+    white-space: nowrap;
+    overflow: visible; /* Allow level labels to show on mobile */
+    min-width: 1px;
+    min-height: 8px; /* Much smaller minimum height for mobile levels */
+  }
+
+  .bar img {
+    width: 16px; /* Smaller for mobile */
+    height: 16px; /* Smaller for mobile */
+    bottom: -20px; /* Position icons below bars with small gap */
+    left: 50%;
+    transform: translateX(-50%); /* Center icons horizontally */
+  }
+
+  .bar-label {
+    font-size: 0.7rem;
+    bottom: -15px;
+    display: none;
+  }
+
+  #faction-filters {
+    flex-wrap: wrap;
+    gap: 5px; /* Adjust gap for smaller screens */
+    margin: 15px 0; /* Adjust margin for smaller screens */
+    display: flex; /* Ensure it's a flex container */
+    justify-content: center; /* Center items */
+    width: 100%; /* Take full width */
+  }
+
+  .faction-filter {
+    padding: 6px 12px; /* Adjust padding for smaller screens */
+    font-size: 0.8rem; /* Adjust font size */
+    border: 2px solid #4a4a4a; /* Re-apply border */
+    background-color: #2a2a2a; /* Re-apply background */
+    color: #fff; /* Re-apply text color */
+    pointer-events: auto; /* Ensure clicks are registered */
+    flex-grow: 1; /* Allow buttons to grow */
+    text-align: center; /* Center text */
+  }
+  
+  /* Mobile level color coding adjustments */
+  #level-color-coding {
+    flex-wrap: wrap;
+    gap: 5px;
+    margin: 15px 0;
+  }
+  
+  .level-color-coding {
+    padding: 6px 12px;
+    font-size: 0.8rem;
+    flex-grow: 1;
+    text-align: center;
+  }
+  
+  /* Mobile pie chart adjustments */
+  .pie-chart {
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    height: 400px;
+    transform: translateY(20px);
+  }
+  
+  /* Hide footer bar on mobile pie charts */
+  .chart-container.pie-mode .chart-bars::before {
+    display: none;
+  }
+  
+  /* Ensure faction legend is visible on mobile */
+.faction-legend {
+  color: white !important;
+  font-size: 0.8rem !important;
+}
+  
+  .pie-legend {
+    margin-left: 0;
+    margin-top: 10px;
+    max-height: none;
+    width: 100%;
+    flex-wrap: wrap;
+    flex-direction: row;
+    justify-content: center;
+  }
+  
+  .pie-legend-item {
+    font-size: 0.7rem;
+    margin: 2px;
+  }
+  
+  /* Mobile pie mode container height */
+  .chart-container.pie-mode {
+    min-height: 75px;
+  }
+  
+  /* Mobile level selection controls adjustments */
+  #level-selection-controls {
+    flex-direction: column;
+    gap: 10px;
+    margin: 10px 0;
+  }
+  
+  .selection-info {
+    font-size: 0.8rem;
+    min-width: auto;
+  }
+  
+  /* Mobile Y-axis label adjustments */
+  .y-axis-labels {
+    left: 0;
+    width: 40px;
+  }
+  
+  .y-axis-label {
+    font-size: 0.6rem;
+  }
+  
+  /* Mobile server button adjustments */
+  #tabs {
+    flex-wrap: wrap;
+    gap: 5px;
+    justify-content: center;
+  }
+  
+  .tab {
+    padding: 4px 8px;
+    font-size: 0.75rem;
+    min-width: 0;
+    flex: 1 1 auto;
+    max-width: calc(50% - 2.5px);
+  }
+}
+
+/* Ensure links are white in all states */
+a, a:visited, a:hover, a:active, a:focus {
+  color: #ffffff;
+} 

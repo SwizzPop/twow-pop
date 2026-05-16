@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Turtle WoW Population Tracker</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="app">
+        <header>
+            <h1>Turtle WoW Population Tracker</h1>
+            <h2>&#128034;I'll miss you.&#128034;</h2>
+            <h6>The domain twow-pop.click will sunset on June 6, 2026.</h6>
+            <h6>This mirror is only for archival purposes.</h6>
+            <div id="server-info"></div>
+        </header>
+        <main>
+            <div id="tabs">
+                <button class="tab" data-server="Nordanaar">Nordanaar</button>
+                <button class="tab" data-server="Ambershire">Ambershire</button>
+                <button class="tab" data-server="Tel'Abim">Tel'Abim</button>
+                <button class="tab" data-server="South Seas">South Seas</button>
+            </div>
+            <div id="ambershire-link" class="ambershire-link" style="display: none;">
+                <a href="https://ambershire.twow-pop.click" target="_blank" class="ambershire-watch-link">Watch Ambershire Grow!</a>
+            </div>
+            <div id="faction-filters">
+                <button class="faction-filter active" data-faction="all">All</button>
+                <button class="faction-filter" data-faction="alliance">Alliance</button>
+                <button class="faction-filter" data-faction="horde">Horde</button>
+                <button id="toggle-60s" class="utility-button" title="Show/Hide level 60s in Levels chart">Hide 60s</button>
+            </div>
+            <section id="charts">
+                <div class="top-charts">
+                    <div class="chart-container" id="race-chart">
+                        <h2>Races <button class="chart-toggle" data-chart="race" title="Switch to pie chart">📊</button></h2>
+                        <div class="chart-bars"></div>
+                    </div>
+                    <div class="chart-container" id="class-chart">
+                        <h2>Classes <button class="chart-toggle" data-chart="class" title="Switch to pie chart">📊</button></h2>
+                        <div class="chart-bars"></div>
+                    </div>
+                </div>
+                <div class="chart-container" id="level-chart">
+                    <h2>Levels</h2>
+                    <div class="chart-bars"></div>
+                </div>
+            </section>
+            <div id="level-color-coding">
+                <button class="level-color-coding active" data-coding="none">None</button>
+                <button class="level-color-coding" data-coding="race">Race</button>
+                <button class="level-color-coding" data-coding="class">Class</button>
+                <button class="level-color-coding" data-coding="faction">Faction</button>
+            </div>
+            <div id="level-selection-controls">
+                <button id="clear-level-selection" class="utility-button" title="Clear all selected levels">Clear Selection</button>
+                <span id="selection-info" class="selection-info"></span>
+            </div>
+        </main>
+        <footer>
+            <p class="disclaimer">Powered by a modified version of <a href = "https://github.com/Lexiebean/CensusPlusTurtle" target=new>CensusPlusTurtle</a>.</p>
+            <p class="disclaimer">Not affiliated with Turtle WoW in any capacity.</p>
+            <p class="disclaimer">When you are lost, you can always /moon for DMF.</p>
+        </footer>
+    </div>
+    <script src="main.js"></script>
+</body>
+</html> 
